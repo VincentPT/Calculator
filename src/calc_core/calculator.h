@@ -17,7 +17,10 @@ namespace calc {
         std::string lastRes_;
         std::list<std::string> evaluatedTokens_;
 
+    private:
         static std::string prettyResult(double value);
+        void updateHistory();
+
     public:
         Calculator(/* args */);
         ~Calculator();

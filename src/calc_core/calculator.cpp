@@ -45,6 +45,7 @@ namespace calc {
                 if(pCalculatorView_) {
                     pCalculatorView_->setResult(expToken_);
                 }
+                updateHistory();
             }
             else {
                 if(!lastRes_.empty()) {
@@ -68,6 +69,7 @@ namespace calc {
                         pCalculatorView_->setResult(resultStr);
                     }
                 }
+                updateHistory();
             }
         }
         catch (const std::exception& e) {
@@ -87,9 +89,24 @@ namespace calc {
             }
             auto finalRes = pEvaluator_->eval();
             lastRes_ = prettyResult(finalRes);
-            if(pCalculatorView_) {                
+            if(pCalculatorView_) {
                 pCalculatorView_->setResult(lastRes_);
             }
+
+            evaluatedTokens_.clear();
+            updateHistory();
         }
+    }
+
+    void Calculator::updateHistory() {
+        if(!pCalculatorView_) return;
+
+        std::string history;
+        for(auto token : evaluatedTokens_) {
+            history.append(token);
+        }
+
+        history.append(expToken_);
+        pCalculatorView_->setHistory(history);
     }
 }
