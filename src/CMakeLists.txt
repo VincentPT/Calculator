@@ -21,7 +21,9 @@ set(PROJECT_SOURCES
     calc_core/calc.h
     calc_core/eval.h
     calc_core/evaluator.h
-    calc_core/evaluator.cpp 
+    calc_core/evaluator.cpp
+    calc_core/calculator_view.h
+    calc_core/calculator_view.cpp
 )
 
 if (DEFINED QT_AUTOGEN_DIR_FOR_VSCODE)

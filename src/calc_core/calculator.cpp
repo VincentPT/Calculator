@@ -3,16 +3,20 @@
 
 Calculator::Calculator(/* args */)
 {
-    pEvaluator = new Evaluator();
+    pEvaluator_ = new Evaluator();
 }
 
 Calculator::~Calculator()
 {
-    delete pEvaluator;
+    delete pEvaluator_;
 }
 
 void Calculator::expression_elm_input(ExpElmId id) {
-    pEvaluator->process_input(id);
+    pEvaluator_->process_input(id);
+
+    if(pCalculatorView_) {
+        pCalculatorView_->setResult("Set OK");
+    }
 }
 
 void Calculator::calculator_func_input(CalcFuncId functionId) {

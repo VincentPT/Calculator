@@ -344,7 +344,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QTextEdit" name="textEdit">
+   <widget class="QTextEdit" name="tbRes">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -359,6 +359,11 @@
       <height>50</height>
      </size>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
     <property name="layoutDirection">
      <enum>Qt::RightToLeft</enum>
     </property>
@@ -372,7 +377,7 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEdit_2">
+   <widget class="QTextEdit" name="tbHistory">
     <property name="geometry">
      <rect>
       <x>10</x>
