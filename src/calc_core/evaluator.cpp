@@ -69,7 +69,7 @@ namespace calc {
 
     const double* Evaluator::putOperand(const std::string& token) {
         bool isNumber = std::all_of(token.begin(), token.end(), [](char c) {
-            return ((c >= '0' && c <= '9') || c == '.');
+            return ((c >= '0' && c <= '9') || c == '.' || c == '-' || c == '+');
         });
 
         if(!isNumber) {
@@ -148,5 +148,9 @@ namespace calc {
         }
         double finaResult = excutionContext_.popOperand();
         return finaResult;
+    }
+
+    bool Evaluator::isDirty() {
+        return excutionContext_.operands() != 0;
     }
 }

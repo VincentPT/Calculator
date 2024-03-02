@@ -36,6 +36,10 @@ namespace calc {
                 (elmChar >= 'a' &&  elmChar <= 'z') ||
                 elmChar == '.'
             ) {
+                if(!lastRes_.empty()) {
+                    // clear last result if user input first operand of the expression
+                    lastRes_.clear();
+                }
                 // collect expression token
                 expToken_.push_back(elmChar);
                 if(pCalculatorView_) {
@@ -43,6 +47,11 @@ namespace calc {
                 }
             }
             else {
+                if(!lastRes_.empty()) {
+                    // if there is last result, consider it an the first operand of the expression
+                    expToken_ = lastRes_;
+                    lastRes_.clear();
+                }
                 // separator detected => put the token to evaluator
                 if(!expToken_.empty()) {
                     pEvaluator_->putToken(expToken_);
@@ -70,14 +79,16 @@ namespace calc {
 
     void Calculator::calculator_func_input(CalcFuncId functionId) {
         if(functionId == CalcFuncId::Eval) {
+            if(!pEvaluator_->isDirty()) return;
+
             if(!expToken_.empty()) {
                 pEvaluator_->putToken(expToken_);
                 evaluatedTokens_.emplace_back(std::move(expToken_));
             }
             auto finalRes = pEvaluator_->eval();
-            if(pCalculatorView_) {
-                auto resultStr = prettyResult(finalRes);
-                pCalculatorView_->setResult(resultStr);
+            lastRes_ = prettyResult(finalRes);
+            if(pCalculatorView_) {                
+                pCalculatorView_->setResult(lastRes_);
             }
         }
     }

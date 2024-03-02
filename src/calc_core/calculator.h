@@ -14,6 +14,7 @@ namespace calc {
         Evaluator* pEvaluator_;
         ICalculatorView* pCalculatorView_ = nullptr;
         std::string expToken_;
+        std::string lastRes_;
         std::list<std::string> evaluatedTokens_;
 
         static std::string prettyResult(double value);
