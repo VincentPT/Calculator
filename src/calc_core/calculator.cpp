@@ -44,19 +44,21 @@ namespace calc {
             }
             else {
                 // separator detected => put the token to evaluator
-                pEvaluator_->putToken(expToken_);
-                expToken_.clear();
+                if(!expToken_.empty()) {
+                    pEvaluator_->putToken(expToken_);
+                    evaluatedTokens_.emplace_back(std::move(expToken_));
+                }
 
                 // put the separator to evaluator also            
                 expToken_.push_back(elmChar);
                 auto pImmediateResult = pEvaluator_->putToken(expToken_);
+                evaluatedTokens_.emplace_back(std::move(expToken_));
                 if(pCalculatorView_) {
                     if(pImmediateResult) {
                         auto resultStr = prettyResult(*pImmediateResult);
                         pCalculatorView_->setResult(resultStr);
                     }
                 }
-                expToken_.clear();
             }
         }
         catch (const std::exception& e) {
@@ -70,7 +72,7 @@ namespace calc {
         if(functionId == CalcFuncId::Eval) {
             if(!expToken_.empty()) {
                 pEvaluator_->putToken(expToken_);
-                expToken_.clear();
+                evaluatedTokens_.emplace_back(std::move(expToken_));
             }
             auto finalRes = pEvaluator_->eval();
             if(pCalculatorView_) {

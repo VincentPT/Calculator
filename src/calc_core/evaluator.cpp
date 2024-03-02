@@ -27,6 +27,8 @@ namespace calc {
         functorDict_[FUNCTION_ID_SUB] = std::make_unique<SubstractiveFunctor>();
         functorDict_[FUNCTION_ID_MUL] = std::make_unique<MultiplicativeFunctor>();
         functorDict_[FUNCTION_ID_DIV] = std::make_unique<DivisiveFunctor>();
+        functorDict_[FUNCTION_ID_NEGATIVE] = std::make_unique<NegativeFunctor>();
+        functorDict_[FUNCTION_ID_POSITIVE] = std::make_unique<PositiveFunctor>();
     }
 
     Evaluator::Evaluator(/* args */)

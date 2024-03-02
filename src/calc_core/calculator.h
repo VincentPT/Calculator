@@ -3,6 +3,7 @@
 #include "calc.h"
 #include "calculator_view.h"
 #include <string>
+#include <list>
 
 namespace calc {
     class Evaluator;
@@ -13,6 +14,7 @@ namespace calc {
         Evaluator* pEvaluator_;
         ICalculatorView* pCalculatorView_ = nullptr;
         std::string expToken_;
+        std::list<std::string> evaluatedTokens_;
 
         static std::string prettyResult(double value);
     public:

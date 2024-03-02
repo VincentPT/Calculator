@@ -79,4 +79,30 @@ namespace calc {
         double perform(double arg1, double arg2) override;
         int priority() override;
     };
+
+    //////////////////////////////////////////////////////////////////////////
+    /// operator - (negative)
+    /////////////////////////////////////////////////////////////////////////
+    class NegativeFunctor : public UnaryFunctor
+    {
+    private:
+    public:
+        NegativeFunctor();
+        virtual ~NegativeFunctor();
+        double perform(double arg) override;
+        int priority() override;
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    /// operator + (positive)
+    /////////////////////////////////////////////////////////////////////////
+    class PositiveFunctor : public UnaryFunctor
+    {
+    private:
+    public:
+        PositiveFunctor();
+        virtual ~PositiveFunctor();
+        double perform(double arg) override;
+        int priority() override;
+    };
 }

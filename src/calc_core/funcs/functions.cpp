@@ -82,4 +82,32 @@ namespace calc {
     int DivisiveFunctor::priority() {
         return 5;
     }
+
+    //////////////////////////////////////////////////////////////////////////
+    /// operator - (negative)
+    /////////////////////////////////////////////////////////////////////////
+    NegativeFunctor::NegativeFunctor() {}
+    NegativeFunctor::~NegativeFunctor() {}
+
+    double NegativeFunctor::perform(double arg) {
+        return -arg;
+    }
+
+    int NegativeFunctor::priority() {
+        return 3;
+    }
+
+    //////////////////////////////////////////////////////////////////////////
+    /// operator + (positive)
+    /////////////////////////////////////////////////////////////////////////
+    PositiveFunctor::PositiveFunctor() {}
+    PositiveFunctor::~PositiveFunctor() {}
+
+    double PositiveFunctor::perform(double arg) {
+        return arg;
+    }
+
+    int PositiveFunctor::priority() {
+        return 3;
+    }
 }
