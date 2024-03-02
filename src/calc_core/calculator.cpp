@@ -104,10 +104,17 @@ namespace calc {
             pEvaluator_->putToken(expToken_);
             evaluatedTokens_.emplace_back(std::move(expToken_));
         }
-        auto finalRes = pEvaluator_->eval();
-        lastRes_ = prettyResult(finalRes);
-        if(pCalculatorView_) {
-            pCalculatorView_->setResult(lastRes_);
+        try {
+            auto finalRes = pEvaluator_->eval();
+            lastRes_ = prettyResult(finalRes);
+            if(pCalculatorView_) {
+                pCalculatorView_->setResult(lastRes_);
+            }
+        }
+        catch (const std::exception& e) {
+            if(pCalculatorView_) {
+                pCalculatorView_->setResult(e.what());
+            }
         }
 
         evaluatedTokens_.clear();

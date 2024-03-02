@@ -22,6 +22,32 @@
 namespace calc {
     static std::map<std::string, std::unique_ptr<Functor>> functorDict_;
 
+    bool isNumber(const std::string& s) {
+        if(s.empty()) return false;
+
+        auto it = s.begin();
+        if(*it == '-' || *it == '+') {
+            if(s.size() < 2) return false;
+
+            it++;            
+        }
+        bool hasDot = false;
+
+        auto start = it;
+        for(; it != s.end(); ++it) {
+            if(*it == '.') {
+                if(hasDot) return false;      // dot should has only one
+                if(start == it) return false; // dot is not allow to be first character
+                hasDot = true;
+            }
+            else if(*it < '0' || *it > '9') {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     void buildDictionary() {
         functorDict_[FUNCTION_ID_ADD] = std::make_unique<AdditiveFunctor>();
         functorDict_[FUNCTION_ID_SUB] = std::make_unique<SubstractiveFunctor>();
@@ -46,12 +72,15 @@ namespace calc {
         if(token.empty()) {
             throw std::runtime_error("invalid token");
         }
-        auto firstChar = token[0];
+        bool isNumericToken = isNumber(token);
         TokenType tokenType;
-        if(firstChar >= '0' && firstChar <= '9') {
+        if(isNumericToken) {
             tokenType = TokenType::Operand;
         }
         else {
+            if(token[0] >= '0' && token[0] <= '9') {
+                throw std::runtime_error("invalid function");
+            }
             tokenType = TokenType::Functor;
         }
 
@@ -68,11 +97,9 @@ namespace calc {
     }
 
     const double* Evaluator::putOperand(const std::string& token) {
-        bool isNumber = std::all_of(token.begin(), token.end(), [](char c) {
-            return ((c >= '0' && c <= '9') || c == '.' || c == '-' || c == '+');
-        });
+        bool isNumericToken = isNumber(token);
 
-        if(!isNumber) {
+        if(!isNumericToken) {
             throw std::runtime_error("token is not a number");
         }
 
