@@ -12,10 +12,13 @@ Calculator::~Calculator()
 }
 
 void Calculator::expression_elm_input(ExpElmId id) {
-    pEvaluator_->process_input(id);
-
-    if(pCalculatorView_) {
-        pCalculatorView_->setResult("Set OK");
+    try {
+        pEvaluator_->process_input(id);
+    }
+    catch (const std::exception& e) {
+        if(pCalculatorView_) {
+            pCalculatorView_->setResult(e.what());
+        }
     }
 }
 

@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 3.5)
 
 project(calculator VERSION 0.1 LANGUAGES CXX)
 
-set(CMAKE_AUTOUIC OFF)
-set(CMAKE_AUTOMOC OFF)
-set(CMAKE_AUTORCC OFF)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -26,10 +26,10 @@ set(PROJECT_SOURCES
     calc_core/calculator_view.cpp
 )
 
-if (DEFINED QT_AUTOGEN_DIR_FOR_VSCODE)
-set (PROJECT_SOURCES ${PROJECT_SOURCES}
-    ${QT_AUTOGEN_DIR_FOR_VSCODE}/mocs_compilation.cpp)
-endif()
+# if (DEFINED QT_AUTOGEN_DIR_FOR_VSCODE)
+# set (PROJECT_SOURCES ${PROJECT_SOURCES}
+#     ${QT_AUTOGEN_DIR_FOR_VSCODE}/mocs_compilation.cpp)
+# endif()
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(calculator
@@ -56,9 +56,9 @@ endif()
 
 target_link_libraries(calculator PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 
-if (DEFINED QT_AUTOGEN_DIR_FOR_VSCODE)
-    target_include_directories(calculator PRIVATE ${QT_AUTOGEN_DIR_FOR_VSCODE}/include)
-endif()
+# if (DEFINED QT_AUTOGEN_DIR_FOR_VSCODE)
+#     target_include_directories(calculator PRIVATE ${QT_AUTOGEN_DIR_FOR_VSCODE}/include)
+# endif()
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an

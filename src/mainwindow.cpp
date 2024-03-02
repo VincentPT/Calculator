@@ -32,6 +32,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->btn_fn_mul, &QPushButton::clicked, this,[this](){ pCalculator->expression_elm_input(ExpElmId::Mul); });
     connect(ui->btn_fn_sub, &QPushButton::clicked, this,[this](){ pCalculator->expression_elm_input(ExpElmId::Sub); });
     connect(ui->btn_fn_add, &QPushButton::clicked, this,[this](){ pCalculator->expression_elm_input(ExpElmId::Add); });
+
+    pCalculator->setView(this);
 }
 
 MainWindow::~MainWindow()
@@ -44,10 +46,11 @@ MainWindow::~MainWindow()
 /// ICalculatorView interfaces - START
 //////////////////////////////////////////////////////////////////////////
 void MainWindow::setResult(const std::string& resStr) {
+    ui->tbRes->setText(QString::fromStdString(resStr));
 }
 
 void MainWindow::setHistory(const std::string& historyStr) {
-
+    ui->tbHistory->setText(QString::fromStdString(historyStr));
 }
 //////////////////////////////////////////////////////////////////////////
 /// ICalculatorView interfaces - END
