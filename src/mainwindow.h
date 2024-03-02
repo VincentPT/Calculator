@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+#include "calc_core/calculator.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -17,7 +19,11 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+
+
 private:
     Ui::MainWindow *ui;
+    calculator* pCalculator;
 };
 #endif // MAINWINDOW_H

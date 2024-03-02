@@ -1,0 +1,9 @@
+{
+    "cmake.sourceDirectory": "${workspaceFolder}/src",
+    "cmake.configureArgs": [
+    ],
+    "cmake.configureSettings" : {
+        "CMAKE_PREFIX_PATH": "${env:QT_SDK_DIR}/mingw_64",
+        "QT_AUTOGEN_DIR_FOR_VSCODE": "${workspaceFolder}/build-calculator-Desktop_Qt_6_6_2_MinGW_64_bit-Debug/calculator_autogen",
+    }
+}
