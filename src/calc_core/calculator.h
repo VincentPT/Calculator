@@ -20,7 +20,8 @@ namespace calc {
     private:
         static std::string prettyResult(double value);
         void updateHistory();
-
+        void expression_token_input(char elmChar);
+        void expression_operator_input(char elmChar);
     public:
         Calculator(/* args */);
         ~Calculator();

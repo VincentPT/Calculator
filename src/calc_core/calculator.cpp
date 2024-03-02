@@ -26,6 +26,42 @@ namespace calc {
         return numberInStr;
     }
 
+    void Calculator::expression_token_input(char elmChar) {
+        if(!lastRes_.empty()) {
+            // clear last result if user input first operand of the expression
+            lastRes_.clear();
+        }
+        // collect expression token
+        expToken_.push_back(elmChar);
+        if(pCalculatorView_) {
+            pCalculatorView_->setResult(expToken_);
+        }
+    }
+
+    void Calculator::expression_operator_input(char elmChar) {
+        if(!lastRes_.empty()) {
+            // if there is last result, consider it an the first operand of the expression
+            expToken_ = lastRes_;
+            lastRes_.clear();
+        }
+        // separator detected => put the token to evaluator
+        if(!expToken_.empty()) {
+            pEvaluator_->putToken(expToken_);
+            evaluatedTokens_.emplace_back(std::move(expToken_));
+        }
+
+        // put the separator to evaluator also            
+        expToken_.push_back(elmChar);
+        auto pImmediateResult = pEvaluator_->putToken(expToken_);
+        evaluatedTokens_.emplace_back(std::move(expToken_));
+        if(pCalculatorView_) {
+            if(pImmediateResult) {
+                auto resultStr = prettyResult(*pImmediateResult);
+                pCalculatorView_->setResult(resultStr);
+            }
+        }
+    }
+
     void Calculator::expression_elm_input(char elmChar) {
         try {
             if ((elmChar >= '0' &&  elmChar <= '9') || 
@@ -33,41 +69,12 @@ namespace calc {
                 (elmChar >= 'a' &&  elmChar <= 'z') ||
                 elmChar == '.'
             ) {
-                if(!lastRes_.empty()) {
-                    // clear last result if user input first operand of the expression
-                    lastRes_.clear();
-                }
-                // collect expression token
-                expToken_.push_back(elmChar);
-                if(pCalculatorView_) {
-                    pCalculatorView_->setResult(expToken_);
-                }
-                updateHistory();
+                expression_token_input(elmChar);
             }
             else {
-                if(!lastRes_.empty()) {
-                    // if there is last result, consider it an the first operand of the expression
-                    expToken_ = lastRes_;
-                    lastRes_.clear();
-                }
-                // separator detected => put the token to evaluator
-                if(!expToken_.empty()) {
-                    pEvaluator_->putToken(expToken_);
-                    evaluatedTokens_.emplace_back(std::move(expToken_));
-                }
-
-                // put the separator to evaluator also            
-                expToken_.push_back(elmChar);
-                auto pImmediateResult = pEvaluator_->putToken(expToken_);
-                evaluatedTokens_.emplace_back(std::move(expToken_));
-                if(pCalculatorView_) {
-                    if(pImmediateResult) {
-                        auto resultStr = prettyResult(*pImmediateResult);
-                        pCalculatorView_->setResult(resultStr);
-                    }
-                }
-                updateHistory();
+                expression_operator_input(elmChar);                
             }
+            updateHistory();
         }
         catch (const std::exception& e) {
             if(pCalculatorView_) {
