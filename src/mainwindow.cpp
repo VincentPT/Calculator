@@ -34,6 +34,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->btn_fn_sub, &QPushButton::clicked, this,[this](){ pCalculator->expression_elm_input('-'); });
     connect(ui->btn_fn_add, &QPushButton::clicked, this,[this](){ pCalculator->expression_elm_input('+'); });
 
+    ui->tbRes->setAlignment(Qt::AlignRight);
+    ui->tbHistory->setAlignment(Qt::AlignRight);
+
     pCalculator->setView(this);
 }
 
@@ -48,10 +51,12 @@ MainWindow::~MainWindow()
 //////////////////////////////////////////////////////////////////////////
 void MainWindow::setResult(const std::string& resStr) {
     ui->tbRes->setText(QString::fromStdString(resStr));
+    ui->tbRes->setAlignment(Qt::AlignRight);
 }
 
 void MainWindow::setHistory(const std::string& historyStr) {
     ui->tbHistory->setText(QString::fromStdString(historyStr));
+    ui->tbHistory->setAlignment(Qt::AlignRight);
 }
 //////////////////////////////////////////////////////////////////////////
 /// ICalculatorView interfaces - END
