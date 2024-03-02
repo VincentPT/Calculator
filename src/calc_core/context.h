@@ -27,5 +27,7 @@ namespace calc {
         Functor* popFunctor();
         Functor* topFunctor() const;
         int functors() const { return fsp_ + 1;}
+        
+        void reset();
     };
 }

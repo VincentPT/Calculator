@@ -78,7 +78,6 @@ namespace calc {
 
         double operand = atof(token.c_str());
         excutionContext_.putOperand(operand);
-        justPerformEval_ = false;
 
         return nullptr;
     }
@@ -105,7 +104,6 @@ namespace calc {
             throw std::runtime_error("invalid function");
         }
 
-        justPerformEval_ = false;
         const double* imediateResult = nullptr;
         auto currentFunctor = it->second.get();
         if(excutionContext_.functors() > 0) {
@@ -152,5 +150,10 @@ namespace calc {
 
     bool Evaluator::isDirty() {
         return excutionContext_.operands() != 0;
+    }
+
+    void Evaluator::reset() {
+        excutionContext_.reset();
+        lastTokenType_ = TokenType::NotSet;
     }
 }

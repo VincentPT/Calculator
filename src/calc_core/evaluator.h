@@ -17,7 +17,6 @@ namespace calc {
     private:
         TokenType lastTokenType_ = TokenType::NotSet;
         Context excutionContext_;
-        bool justPerformEval_ = true;
     public:
         Evaluator(/* args */);
         ~Evaluator();
@@ -27,5 +26,6 @@ namespace calc {
         const double* putToken(const std::string& token);
         double eval();
         bool isDirty();
+        void reset();
     };
 }

@@ -78,20 +78,10 @@ namespace calc {
 
     void Calculator::calculator_func_input(CalcFuncId functionId) {
         if(functionId == CalcFuncId::Eval) {
-            if(!pEvaluator_->isDirty()) return;
-
-            if(!expToken_.empty()) {
-                pEvaluator_->putToken(expToken_);
-                evaluatedTokens_.emplace_back(std::move(expToken_));
-            }
-            auto finalRes = pEvaluator_->eval();
-            lastRes_ = prettyResult(finalRes);
-            if(pCalculatorView_) {
-                pCalculatorView_->setResult(lastRes_);
-            }
-
-            evaluatedTokens_.clear();
-            updateHistory();
+            eval();
+        }
+        else if(functionId == CalcFuncId::AC) {
+            reset();
         }
     }
 
@@ -105,5 +95,33 @@ namespace calc {
 
         history.append(expToken_);
         pCalculatorView_->setHistory(history);
+    }
+
+    void Calculator::eval() {
+        if(!pEvaluator_->isDirty()) return;
+
+        if(!expToken_.empty()) {
+            pEvaluator_->putToken(expToken_);
+            evaluatedTokens_.emplace_back(std::move(expToken_));
+        }
+        auto finalRes = pEvaluator_->eval();
+        lastRes_ = prettyResult(finalRes);
+        if(pCalculatorView_) {
+            pCalculatorView_->setResult(lastRes_);
+        }
+
+        evaluatedTokens_.clear();
+        updateHistory();
+    }
+
+    void Calculator::reset() {
+        lastRes_ = "0";
+        expToken_.clear();
+        evaluatedTokens_.clear();
+        pEvaluator_->reset();
+        if(pCalculatorView_) {
+            pCalculatorView_->setResult(lastRes_);
+        }
+        updateHistory();
     }
 }

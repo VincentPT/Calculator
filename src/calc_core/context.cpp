@@ -68,4 +68,9 @@ namespace calc {
         }
         return funcStack_[fsp_]; 
     }
+
+    void Context::reset() {
+        osp_ = -1;
+        fsp_ = -1;
+    }
 }

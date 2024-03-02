@@ -31,5 +31,8 @@ namespace calc {
         void setView(ICalculatorView* pCalculatorView) {
             pCalculatorView_ = pCalculatorView;
         }
+
+        void eval();
+        void reset();
     };
 }
