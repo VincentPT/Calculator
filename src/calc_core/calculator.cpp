@@ -16,15 +16,12 @@ namespace calc {
     std::string Calculator::prettyResult(double value) {
         auto numberInStr = std::to_string(value);
         auto dotPos = numberInStr.find('.');
-        if(dotPos != std::string::npos) {
-            auto it = numberInStr.begin();
-            bool res = std::all_of(it + dotPos + 1, numberInStr.end(), [](char c){
-                return c == '0';
-            });
-
-            if(res) {
-                return numberInStr.substr(0, dotPos);
-            }
+        auto lastNotZero = numberInStr.find_last_not_of('0');
+        if(lastNotZero > dotPos) {
+            return numberInStr.substr(0, lastNotZero + 1);
+        }
+        if(lastNotZero == dotPos) {
+            return numberInStr.substr(0, dotPos);
         }
         return numberInStr;
     }
