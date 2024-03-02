@@ -24,6 +24,12 @@ set(PROJECT_SOURCES
     calc_core/evaluator.cpp
     calc_core/calculator_view.h
     calc_core/calculator_view.cpp
+    calc_core/context.h
+    calc_core/context.cpp
+    calc_core/functor.h
+    calc_core/functor.cpp
+    calc_core/funcs/functions.h
+    calc_core/funcs/functions.cpp
 )
 
 # if (DEFINED QT_AUTOGEN_DIR_FOR_VSCODE)

@@ -1,4 +1,6 @@
 #include "calculator_view.h"
 
-ICalculatorView::ICalculatorView() {}
-ICalculatorView::~ICalculatorView() {}
+namespace calc {
+    ICalculatorView::ICalculatorView() {}
+    ICalculatorView::~ICalculatorView() {}
+}

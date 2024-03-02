@@ -12,7 +12,7 @@ class MainWindow;
 }
 QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow, public ICalculatorView
+class MainWindow : public QMainWindow, public calc::ICalculatorView
 {
     Q_OBJECT
 
@@ -34,6 +34,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    Calculator* pCalculator;
+    calc::Calculator* pCalculator;
 };
 #endif // MAINWINDOW_H
