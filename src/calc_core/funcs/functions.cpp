@@ -38,6 +38,48 @@ namespace calc {
     }
 
     int AdditiveFunctor::priority() {
+        return 6;
+    }
+
+    //////////////////////////////////////////////////////////////////////////
+    /// operator -
+    /////////////////////////////////////////////////////////////////////////
+    SubstractiveFunctor::SubstractiveFunctor() {}
+    SubstractiveFunctor::~SubstractiveFunctor() {}
+
+    double SubstractiveFunctor::perform(double arg1, double arg2) {
+        return arg1 - arg2;
+    }
+
+    int SubstractiveFunctor::priority() {
+        return 6;
+    }
+
+    //////////////////////////////////////////////////////////////////////////
+    /// operator *
+    /////////////////////////////////////////////////////////////////////////
+    MultiplicativeFunctor::MultiplicativeFunctor() {}
+    MultiplicativeFunctor::~MultiplicativeFunctor() {}
+
+    double MultiplicativeFunctor::perform(double arg1, double arg2) {
+        return arg1 * arg2;
+    }
+
+    int MultiplicativeFunctor::priority() {
+        return 5;
+    }
+
+    //////////////////////////////////////////////////////////////////////////
+    /// operator /
+    /////////////////////////////////////////////////////////////////////////
+    DivisiveFunctor::DivisiveFunctor() {}
+    DivisiveFunctor::~DivisiveFunctor() {}
+
+    double DivisiveFunctor::perform(double arg1, double arg2) {
+        return arg1 / arg2;
+    }
+
+    int DivisiveFunctor::priority() {
         return 5;
     }
 }

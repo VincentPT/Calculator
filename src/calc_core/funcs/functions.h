@@ -40,4 +40,43 @@ namespace calc {
         double perform(double arg1, double arg2) override;
         int priority() override;
     };
+
+    //////////////////////////////////////////////////////////////////////////
+    /// operator -
+    /////////////////////////////////////////////////////////////////////////
+    class SubstractiveFunctor : public BinaryFunctor
+    {
+    private:
+    public:
+        SubstractiveFunctor();
+        virtual ~SubstractiveFunctor();
+        double perform(double arg1, double arg2) override;
+        int priority() override;
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    /// operator *
+    /////////////////////////////////////////////////////////////////////////
+    class MultiplicativeFunctor : public BinaryFunctor
+    {
+    private:
+    public:
+        MultiplicativeFunctor();
+        virtual ~MultiplicativeFunctor();
+        double perform(double arg1, double arg2) override;
+        int priority() override;
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    /// operator /
+    /////////////////////////////////////////////////////////////////////////
+    class DivisiveFunctor : public BinaryFunctor
+    {
+    private:
+    public:
+        DivisiveFunctor();
+        virtual ~DivisiveFunctor();
+        double perform(double arg1, double arg2) override;
+        int priority() override;
+    };
 }

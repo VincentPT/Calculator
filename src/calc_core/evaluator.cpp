@@ -24,6 +24,9 @@ namespace calc {
 
     void buildDictionary() {
         functorDict_[FUNCTION_ID_ADD] = std::make_unique<AdditiveFunctor>();
+        functorDict_[FUNCTION_ID_SUB] = std::make_unique<SubstractiveFunctor>();
+        functorDict_[FUNCTION_ID_MUL] = std::make_unique<MultiplicativeFunctor>();
+        functorDict_[FUNCTION_ID_DIV] = std::make_unique<DivisiveFunctor>();
     }
 
     Evaluator::Evaluator(/* args */)

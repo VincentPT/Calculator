@@ -34,7 +34,7 @@ namespace calc {
             if ((elmChar >= '0' &&  elmChar <= '9') || 
                 (elmChar >= 'A' &&  elmChar <= 'Z') ||
                 (elmChar >= 'a' &&  elmChar <= 'z') ||
-                elmChar == '-'
+                elmChar == '.'
             ) {
                 // collect expression token
                 expToken_.push_back(elmChar);
