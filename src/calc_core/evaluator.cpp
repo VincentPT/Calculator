@@ -1,13 +1,13 @@
 #include "evaluator.h"
 
-evaluator::evaluator(/* args */)
+Evaluator::Evaluator(/* args */)
 {
 }
 
-evaluator::~evaluator()
+Evaluator::~Evaluator()
 {
 }
 
-void evaluator::process_input(ExpElmId id) {
+void Evaluator::process_input(ExpElmId id) {
 
 }

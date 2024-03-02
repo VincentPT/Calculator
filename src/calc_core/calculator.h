@@ -2,15 +2,15 @@
 
 #include "calc.h"
 
-class evaluator;
+class Evaluator;
 
-class calculator
+class Calculator
 {
 private:
-    evaluator* pEvaluator;
+    Evaluator* pEvaluator;
 public:
-    calculator(/* args */);
-    ~calculator();
+    Calculator(/* args */);
+    ~Calculator();
 
     void expression_elm_input(ExpElmId id);
     void calculator_func_input(CalcFuncId functionId);

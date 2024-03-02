@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    pCalculator = new calculator();
+    pCalculator = new Calculator();
 
     connect(ui->btn_del, &QPushButton::clicked, this,[this](){ pCalculator->calculator_func_input(CalcFuncId::Del); });
     connect(ui->btn_ac, &QPushButton::clicked, this,[this](){ pCalculator->calculator_func_input(CalcFuncId::AC); });

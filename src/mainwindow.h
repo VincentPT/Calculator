@@ -24,6 +24,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    calculator* pCalculator;
+    Calculator* pCalculator;
 };
 #endif // MAINWINDOW_H

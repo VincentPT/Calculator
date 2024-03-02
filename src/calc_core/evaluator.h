@@ -2,13 +2,13 @@
 
 #include "eval.h"
 
-class evaluator
+class Evaluator
 {
 private:
     /* data */
 public:
-    evaluator(/* args */);
-    ~evaluator();
+    Evaluator(/* args */);
+    ~Evaluator();
 
     void process_input(ExpElmId id);
 };

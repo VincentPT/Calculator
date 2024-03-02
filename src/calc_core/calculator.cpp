@@ -1,20 +1,20 @@
 #include "calculator.h"
 #include "evaluator.h"
 
-calculator::calculator(/* args */)
+Calculator::Calculator(/* args */)
 {
-    pEvaluator = new evaluator();
+    pEvaluator = new Evaluator();
 }
 
-calculator::~calculator()
+Calculator::~Calculator()
 {
     delete pEvaluator;
 }
 
-void calculator::expression_elm_input(ExpElmId id) {
+void Calculator::expression_elm_input(ExpElmId id) {
     pEvaluator->process_input(id);
 }
 
-void calculator::calculator_func_input(CalcFuncId functionId) {
+void Calculator::calculator_func_input(CalcFuncId functionId) {
 
 }
