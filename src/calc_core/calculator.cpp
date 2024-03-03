@@ -3,6 +3,8 @@
 #include <algorithm>
 
 namespace calc {
+    extern bool isNumber(const std::string& s);
+
     Calculator::Calculator(/* args */)
     {
         pEvaluator_ = new Evaluator();
@@ -33,9 +35,7 @@ namespace calc {
         }
         // collect expression token
         expToken_.push_back(elmChar);
-        if(pCalculatorView_) {
-            pCalculatorView_->setResult(expToken_);
-        }
+        setImmediateResult(expToken_);
     }
 
     void Calculator::expression_operator_input(char elmChar) {
@@ -54,11 +54,9 @@ namespace calc {
         expToken_.push_back(elmChar);
         auto pImmediateResult = pEvaluator_->putToken(expToken_);
         evaluatedTokens_.emplace_back(std::move(expToken_));
-        if(pCalculatorView_) {
-            if(pImmediateResult) {
-                auto resultStr = prettyResult(*pImmediateResult);
-                pCalculatorView_->setResult(resultStr);
-            }
+        if(pImmediateResult) {
+            auto resultStr = prettyResult(*pImmediateResult);
+            setImmediateResult(resultStr);
         }
     }
 
@@ -77,18 +75,27 @@ namespace calc {
             updateHistory();
         }
         catch (const std::exception& e) {
-            if(pCalculatorView_) {
-                pCalculatorView_->setResult(e.what());
-            }
+            setImmediateResult(e.what());
         }
     }
 
     void Calculator::calculator_func_input(CalcFuncId functionId) {
-        if(functionId == CalcFuncId::Eval) {
+        switch (functionId)
+        {
+        case CalcFuncId::Eval:
             eval();
-        }
-        else if(functionId == CalcFuncId::AC) {
+            break;
+        case CalcFuncId::AC:
             reset();
+            break;
+        case CalcFuncId::MS:
+            memorySet();
+            break;
+        case CalcFuncId::MR:
+            memoryRecorver();
+            break;
+        default:
+            break;
         }
     }
 
@@ -104,6 +111,13 @@ namespace calc {
         pCalculatorView_->setHistory(history);
     }
 
+    void Calculator::setImmediateResult(const std::string& resStr) {
+        immediateRes_ = resStr;
+        if(pCalculatorView_) {
+            pCalculatorView_->setResult(resStr);
+        }
+    }
+
     void Calculator::eval() {
         if(!pEvaluator_->isDirty()) return;
 
@@ -114,14 +128,10 @@ namespace calc {
         try {
             auto finalRes = pEvaluator_->eval();
             lastRes_ = prettyResult(finalRes);
-            if(pCalculatorView_) {
-                pCalculatorView_->setResult(lastRes_);
-            }
+            setImmediateResult(lastRes_);
         }
         catch (const std::exception& e) {
-            if(pCalculatorView_) {
-                pCalculatorView_->setResult(e.what());
-            }
+            setImmediateResult(e.what());
         }
 
         evaluatedTokens_.clear();
@@ -133,9 +143,22 @@ namespace calc {
         expToken_.clear();
         evaluatedTokens_.clear();
         pEvaluator_->reset();
-        if(pCalculatorView_) {
-            pCalculatorView_->setResult(lastRes_);
-        }
+        setImmediateResult(lastRes_);
         updateHistory();
+    }
+
+    void Calculator::memorySet() {
+        if(isNumber(immediateRes_)) {
+            temporaryMem_ = immediateRes_;
+        }
+    }
+
+    void Calculator::memoryRecorver() {
+        if(!temporaryMem_.empty()) {
+            setImmediateResult(temporaryMem_);
+            expToken_ = temporaryMem_;
+            lastRes_ = temporaryMem_;
+            updateHistory();
+        }
     }
 }

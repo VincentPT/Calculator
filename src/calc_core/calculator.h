@@ -15,6 +15,8 @@ namespace calc {
         ICalculatorView* pCalculatorView_ = nullptr;
         std::string expToken_;
         std::string lastRes_;
+        std::string immediateRes_;
+        std::string temporaryMem_;
         std::list<std::string> evaluatedTokens_;
 
     private:
@@ -22,6 +24,7 @@ namespace calc {
         void updateHistory();
         void expression_token_input(char elmChar);
         void expression_operator_input(char elmChar);
+        void setImmediateResult(const std::string& resStr);
     public:
         Calculator(/* args */);
         ~Calculator();
@@ -35,5 +38,7 @@ namespace calc {
 
         void eval();
         void reset();
+        void memorySet();
+        void memoryRecorver();
     };
 }
