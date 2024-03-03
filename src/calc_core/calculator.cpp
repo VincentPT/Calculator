@@ -177,9 +177,13 @@ namespace calc {
     }
 
     void Calculator::deleteTempInput() {
-        if(deleteTmpToken()) return;
-
-        deletePendingEvaluationInput();
+        try {
+            if(deleteTmpToken()) return;
+            deletePendingEvaluationInput();
+        }
+        catch(...) {
+            setImmediateResult("internal error");
+        }
     }
 
     bool Calculator::deleteTmpToken() {
