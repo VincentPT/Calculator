@@ -4,6 +4,7 @@
 #include "calculator_view.h"
 #include <string>
 #include <list>
+#include <stack>
 
 namespace calc {
     class Evaluator;
@@ -18,6 +19,7 @@ namespace calc {
         std::string immediateRes_;
         std::string temporaryMem_;
         std::list<std::string> evaluatedTokens_;
+        std::stack<bool> deletableLists;
 
     private:
         static std::string prettyResult(double value);
@@ -25,6 +27,8 @@ namespace calc {
         void expression_token_input(char elmChar);
         void expression_operator_input(char elmChar);
         void setImmediateResult(const std::string& resStr);
+        bool deleteTmpToken();
+        bool deletePendingEvaluationInput();
     public:
         Calculator(/* args */);
         ~Calculator();
@@ -38,7 +42,9 @@ namespace calc {
 
         void eval();
         void reset();
+        void deleteTempInput();
         void memorySet();
         void memoryRecorver();
+        void clearDeletableList();
     };
 }

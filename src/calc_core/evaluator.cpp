@@ -79,6 +79,7 @@ namespace calc {
         }
         else {
             if(token[0] >= '0' && token[0] <= '9') {
+                // functor is not allow leading by a digit
                 throw std::runtime_error("invalid function");
             }
             tokenType = TokenType::Functor;
@@ -182,5 +183,13 @@ namespace calc {
     void Evaluator::reset() {
         excutionContext_.reset();
         lastTokenType_ = TokenType::NotSet;
+    }
+
+    void Evaluator::popFunctor() {
+        excutionContext_.popFunctor();
+    }
+
+    void Evaluator::popOperand() {
+        excutionContext_.popOperand();
     }
 }
