@@ -38,6 +38,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->tbHistory->setAlignment(Qt::AlignRight);
 
     pCalculator->setView(this);
+    this->setFixedSize(525, 400);
 }
 
 MainWindow::~MainWindow()
