@@ -46,11 +46,6 @@ namespace calc {
         // separator detected => put the token to evaluator
         if(!expToken_.empty()) {
             pEvaluator_->putToken(expToken_);
-            if(isNumber(expToken_)) {
-                // an operand is always does not trigger evaluation process. So, it keeps the expression undoable
-                deletableLists.push(false); // mark the operand canbe deleted
-            }
-
             evaluatedTokens_.emplace_back(std::move(expToken_));
         }
 
@@ -61,12 +56,6 @@ namespace calc {
         if(pImmediateResult) {
             auto resultStr = prettyResult(*pImmediateResult);
             setImmediateResult(resultStr);
-            // an operator triggers evaluation process make the expression non undoable
-            clearDeletableList();
-        }
-        else {
-            // an operator does not trigger evaluation process keep the expression undoable
-            deletableLists.push(true); // mark the functor canbe deleted
         }
     }
 
@@ -105,7 +94,7 @@ namespace calc {
             memoryRecorver();
             break;
         case CalcFuncId::Del:
-            deleteTempInput();
+            deleteInput();
             break;
         default:
             break;
@@ -146,8 +135,6 @@ namespace calc {
         catch (const std::exception& e) {
             setImmediateResult(e.what());
         }
-        // evaluated expression cannot be undo
-        clearDeletableList();
         evaluatedTokens_.clear();
         updateHistory();
     }
@@ -176,90 +163,37 @@ namespace calc {
         }
     }
 
-    void Calculator::deleteTempInput() {
+    void Calculator::deleteInput() {
         try {
-            if(deleteTmpToken()) return;
-            deletePendingEvaluationInput();
+            if(replayInputs()) return;
         }
         catch(...) {
             setImmediateResult("internal error");
         }
     }
 
-    bool Calculator::deleteTmpToken() {
-        if(expToken_.empty()) {
+    // replay inputs except last character
+    bool Calculator::replayInputs() {
+        if(expToken_.empty() && evaluatedTokens_.empty()) {
             return false;
         }
-        expToken_.pop_back();
-        if(expToken_.empty()) {
-            if(evaluatedTokens_.empty()) {
-                reset();
-            }
-            else {
-                // don't let the result in caculator show empty
-                // it should be a latest number token
-                for(auto it = evaluatedTokens_.rbegin(); it != evaluatedTokens_.rend(); it++) {
-                    if(isNumber(*it)) {
-                        setImmediateResult(*it);
-                        updateHistory();
-                        break; 
-                    }
-                }
+        
+        std::string backupTmpToken = std::move(expToken_);
+        if(backupTmpToken.empty()) {
+            backupTmpToken = evaluatedTokens_.back();            
+            evaluatedTokens_.pop_back();
+        }
+        std::list<std::string> backupTokens = std::move(evaluatedTokens_);
+        reset();
+        for(auto& token: backupTokens) {
+            for(auto input : token) {
+                expression_elm_input(input);
             }
         }
-        else {
-            setImmediateResult(expToken_);
-            updateHistory();
+        backupTmpToken.pop_back();
+        for(auto input : backupTmpToken) {
+            expression_elm_input(input);
         }
         return true;
-    }
-
-    bool Calculator::deletePendingEvaluationInput() {
-        if(!deletableLists.size()) {
-            return false;
-        }
-
-        bool shouldDeleteFunctor = deletableLists.top();
-        deletableLists.pop();
-
-        if(shouldDeleteFunctor) {
-            pEvaluator_->popFunctor();
-            evaluatedTokens_.pop_back();
-            expToken_.clear();
-
-            // check if the last token...
-            if(evaluatedTokens_.size()) {
-                // ...if not, then if the previous token is a number...
-                if(isNumber(evaluatedTokens_.back())) {
-                    // ...then consider it and a temporary token
-                    // and pop the related data for it
-                    deletableLists.pop();
-                    pEvaluator_->popOperand();
-                    expToken_ = evaluatedTokens_.back();
-                    evaluatedTokens_.pop_back();
-                }
-            }
-            else {
-                // ...then reset the caculato
-                reset();
-            }
-        }
-        else {
-            pEvaluator_->popOperand();
-            expToken_ = evaluatedTokens_.back();
-            evaluatedTokens_.pop_back();
-
-            // call to delete character in expToken_
-            deleteTmpToken();
-        }
-        updateHistory();
-
-        return true;
-    }
-
-    void Calculator::clearDeletableList() {
-        while(deletableLists.size()) {
-            deletableLists.pop();
-        }
     }
 }

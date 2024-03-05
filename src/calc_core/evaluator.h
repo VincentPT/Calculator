@@ -27,8 +27,5 @@ namespace calc {
         double eval();
         bool isDirty();
         void reset();
-
-        void popFunctor();
-        void popOperand();
     };
 }

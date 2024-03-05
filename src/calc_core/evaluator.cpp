@@ -184,12 +184,4 @@ namespace calc {
         excutionContext_.reset();
         lastTokenType_ = TokenType::NotSet;
     }
-
-    void Evaluator::popFunctor() {
-        excutionContext_.popFunctor();
-    }
-
-    void Evaluator::popOperand() {
-        excutionContext_.popOperand();
-    }
 }
