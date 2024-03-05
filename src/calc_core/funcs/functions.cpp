@@ -1,6 +1,20 @@
 #include "functions.h"
 #include "../context.h"
 
+//refer from http://en.cppreference.com/w/cpp/language/operator_precedence
+#define FUNCTION_PRIORITY_FUNCTIONCALL		2	/* () */
+#define FUNCTION_PRIORITY_UNARY_PREFIX		3	/*~, !, +, -, *, & */
+#define FUNCTION_PRIORITY_USER_FUNCTION		4 /*sin, cos, sum, mid, ...*/
+#define FUNCTION_PRIORITY_MULTIPLICATIVE	5 /* % */
+#define FUNCTION_PRIORITY_ADDITIVE			6 /*+ -*/
+#define FUNCTION_PRIORITY_SHIFT				7 /*<<   >>*/
+#define FUNCTION_PRIORITY_BITWISE_AND		11 /* & */
+#define FUNCTION_PRIORITY_BITWISE_XOR		12 /* ^ */
+#define FUNCTION_PRIORITY_BITWISE_OR		13 /* | */
+#define FUNCTION_PRIORITY_LOGICAL_AND		14 /* && */
+#define FUNCTION_PRIORITY_LOGICAL_OR		15 /* || */
+
+
 namespace calc {
     //////////////////////////////////////////////////////////////////////////
     /// base class of functions and operators have only one parameter
@@ -38,7 +52,7 @@ namespace calc {
     }
 
     int AdditiveFunctor::priority() {
-        return 6;
+        return FUNCTION_PRIORITY_ADDITIVE;
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -52,7 +66,7 @@ namespace calc {
     }
 
     int SubstractiveFunctor::priority() {
-        return 6;
+        return FUNCTION_PRIORITY_ADDITIVE;
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -66,7 +80,7 @@ namespace calc {
     }
 
     int MultiplicativeFunctor::priority() {
-        return 5;
+        return FUNCTION_PRIORITY_MULTIPLICATIVE;
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -80,7 +94,7 @@ namespace calc {
     }
 
     int DivisiveFunctor::priority() {
-        return 5;
+        return FUNCTION_PRIORITY_MULTIPLICATIVE;
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -94,7 +108,7 @@ namespace calc {
     }
 
     int NegativeFunctor::priority() {
-        return 3;
+        return FUNCTION_PRIORITY_UNARY_PREFIX;
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -108,6 +122,6 @@ namespace calc {
     }
 
     int PositiveFunctor::priority() {
-        return 3;
+        return FUNCTION_PRIORITY_UNARY_PREFIX;
     }
 }
